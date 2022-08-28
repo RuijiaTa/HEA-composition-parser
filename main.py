@@ -6,17 +6,18 @@ from services.logger import logger
 
 def parser( fpath : str, delimiter : str = ','):
     # get data from csv file
-   data : List[ str ]= CsvService.get_data_from_csv(fpath, delimiter)
+    data : List[ str ] = CsvService.get_data_from_csv(fpath, delimiter)
+    # write parsed output to csv
+    CsvService.write_data_to_csv(fpath, data)
 
-
+    
 if __name__ == '__main__':
-    #TODO: fix access of the script args
     try:
         fpath = sys.argv[1]
         delimiter= sys.argv[2]
         logger.info(f"entered parameters: \n fpath: {fpath}, \n delimiter: {delimiter}")
+        parser(fpath, delimiter)
     except IndexError as e:
         error_message : str = "must call script with arguments: <filepath> <csv-delimiter>"
         message  = {e: error_message}
         raise Exception(message)
-    parser(fpath, delimiter)

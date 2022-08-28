@@ -19,8 +19,8 @@ class CsvService:
 
         if not os.path.exists(fpath):
             raise OSError(filename=fpath)
-        logger.info(f"Opening {fpath}")
-        # Using utf-8-sig to read a file will treat BOM as file info. instead of a string.
+        # logger.info(f"Opening {fpath}")
+        # Using utf-8-sig to read a file will treat BOM as file info instead of a string.
         with open(fpath, newline='', encoding='utf-8-sig') as csvfile:
             reader = _csv.reader(csvfile, delimiter = delimiter, quotechar='"')
             data = [row[0] for row in reader if len(row) > 0]
