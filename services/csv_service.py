@@ -1,12 +1,12 @@
 import os
 from typing import List
 import _csv
-import logging as logger
+from services.logger import logger
 
 class CsvService:
     @staticmethod
     def get_data_from_csv(fpath: str, delimiter = ',') -> List[ str ]:
-     '''   
+        '''   
         Retrieves alloy composition data from a .csv file given as input.
 
         Parameters:
@@ -22,13 +22,10 @@ class CsvService:
         logger.info(f"Opening {fpath}")
         # Using utf-8-sig to read a file will treat BOM as file info. instead of a string.
         with open(fpath, newline='', encoding='utf-8-sig') as csvfile:
-            reader = _csv.reader(csvfile, delimiter, quotechar='"')
-            data = []
-            for row in reader:
-                # skip empty rows
-                if(len(row) > 0):
-                    data.append(row)
+            reader = _csv.reader(csvfile, delimiter = delimiter, quotechar='"')
+            data = [row[0] for row in reader if len(row) > 0]
         logger.info(f"Loaded {fpath} containing {len(data)} items")
+        logger.info(f"first 10 items: {data[0::20]}")
         return data
     
     #TODO : create this function
